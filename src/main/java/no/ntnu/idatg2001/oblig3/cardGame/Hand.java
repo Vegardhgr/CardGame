@@ -47,27 +47,6 @@ public class Hand {
         } catch (NegativeArraySizeException e) {
             System.out.println(e.getMessage());
         }
-
-
-
-
-        /*if (checkerForFullHouse(sortedHand)) {
-            return "Full house";
-        }*/
-
-        /*if (checkerForStraight(sortedHand)) {
-            return "Straight";
-        }
-        if (checkerForThreeOfAKind(sortedHand)) {
-            return "Three of a kind";
-        }
-        int pairs = checkerForPairs(sortedHand);
-
-        if (pairs == 1) {
-            return "One pair";
-        } else if (pairs == 2) {
-            return "Two pairs";
-        }*/
         return null;
     }
 
@@ -77,65 +56,5 @@ public class Hand {
             return true;
         }
         return false;
-    }
-
-    /*private boolean checkerForFullHouse (PlayingCard[] sortedHand) {
-        int previousCardNumber = sortedHand[0].getFace();
-        int i = 0;
-        if ((previousCardNumber == sortedHand[i+1].getFace() &&
-            sortedHand[i+2].getFace() == sortedHand[i+3].getFace() &&
-            sortedHand[i+2].getFace() == sortedHand[i+4].getFace()) ||
-            (previousCardNumber == sortedHand[i+1].getFace() &&
-            sortedHand[i].getFace() == sortedHand[i+2].getFace() &&
-            sortedHand[i+3].getFace() == sortedHand[i+4].getFace())) {
-            return true;
-        }
-        return false;
-    }*/
-
-
-
-    /*private boolean checkerForStraight (PlayingCard[] sortedHand) {
-        int previousCardNumber = sortedHand[0].getFace();
-        for (int i = 1; i < NUMBER_OF_CARDS_DRAWN; i++) {
-            if (!(previousCardNumber == sortedHand[i].getFace()+1)) {
-                return false;
-            }
-            previousCardNumber = sortedHand[i].getFace();
-        }
-        return true;
-    }
-
-    private boolean checkerForThreeOfAKind(PlayingCard[] sortedHand) {
-        int g = 0;
-        int d = 1;
-        int counterForPairs = 0;
-        for (int j = 2; j < NUMBER_OF_CARDS_DRAWN; j++) {
-            if (sortedHand[g].getFace() == sortedHand[d].getFace() &&
-                    sortedHand[g].getFace() == sortedHand[j].getFace()){
-                return true;
-            }
-            g++;
-            d++;
-        }
-        return false;
-    }
-
-    private int checkerForPairs(PlayingCard[] sortedHand) {
-        int g = 0;
-        int counterForPairs = 0;
-        for (int j = 1; j < NUMBER_OF_CARDS_DRAWN; j++) {
-            if (sortedHand[g].getFace() == sortedHand[j].getFace()) {
-                counterForPairs++;
-            }
-            g++;
-        }
-
-        return counterForPairs;
-    }*/
-
-    public static void main(String[] args) {
-        Hand hand = new Hand();
-        hand.checkHand();
     }
 }
