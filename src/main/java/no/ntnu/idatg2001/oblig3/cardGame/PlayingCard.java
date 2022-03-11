@@ -7,7 +7,7 @@ package no.ntnu.idatg2001.oblig3.cardGame;
  * @author ntnu
  * @version 2020-01-10
  */
-public class PlayingCard {
+public class PlayingCard implements Comparable<PlayingCard>{
     private final char suit; // 'S'=spade, 'H'=heart, 'D'=diamonds, 'C'=clubs
     private final int face; // a number between 1 and 13
     /**
@@ -45,5 +45,34 @@ public class PlayingCard {
      */
     public int getFace() {
         return face;
+    }
+
+    /**
+     * Sorts the deck based on suit. If the suits are the same,
+     * it will be sorted based on the number.
+     */
+    @Override
+    public int compareTo(PlayingCard o) {
+        if(suit != o.getSuit())
+            return Character.compare(suit,o.getSuit());
+        return Integer.compare(face, o.getFace());
+    }
+
+    /**
+     * Sorts the deck based on face
+     * @param o, a playing card object
+     * @return int
+     */
+    public int sortCardBasedOnFace(PlayingCard o) {
+        return Integer.compare(face, o.getFace());
+    }
+
+    /**
+     * Sorts the deck based on suit
+     * @param o, a playing card object
+     * @return int
+     */
+    public int sortCardBasedOnSuit(PlayingCard o) {
+        return Character.compare(suit, o.getSuit());
     }
 }
