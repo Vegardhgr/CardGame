@@ -1,6 +1,8 @@
 package no.ntnu.idatg2001.oblig3.cardGame;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -71,9 +73,33 @@ public class DeckOfCards {
 
     /**
      * This method returns a stream of the numbers on the cards
-     * @return
+     * @return IntStream, a strem of the numbers on the cards
      */
     public IntStream getCardListFace() {
-        return this.hand.stream().mapToInt(p -> p.getFace());
+        return this.hand
+                .stream()
+                .mapToInt(p -> p.getFace());
     }
+
+    /**
+     * Returns a list with all the cards that are hearts, in hand
+     * @return List<PlayingCard>
+     */
+    public List<PlayingCard> getHeartsFromHand() {
+        return this.hand
+                .stream()
+                .filter(p -> p.getSuit() == 'H')
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Checks if queen of spades is in hand
+     * @return boolean, true if queen of spades is in hand
+     */
+    public boolean isQueenOfSpadesInHand() {
+        return hand
+                .stream()
+                .anyMatch(p -> p.getSuit() == 'H' && p.getFace() == 12);
+    }
+
 }
