@@ -13,11 +13,14 @@ import java.nio.file.attribute.GroupPrincipal;
 import java.util.List;
 
 public class Gui extends Application {
+    Hand hand;
     Button btnGetHand;
     Button btnRefreshHand;
     Button btnClearText;
     TextArea text;
     Button btnCalculateSumOnHand;
+    Button btnGetHeartsFromHand;
+    Button btnGetQueenOfSpades;
 
 
     public void buttonGetHand() {
@@ -52,21 +55,56 @@ public class Gui extends Application {
         btnCalculateSumOnHand.setText("Calculate sum");
     }
 
+    public void buttonGetHeartsFromHand() {
+        this.btnGetHeartsFromHand = new Button();
+        btnGetHeartsFromHand.setLayoutX(250);
+        btnGetHeartsFromHand.setLayoutY(240);
+        btnGetHeartsFromHand.setText("Get hearts");
+    }
+
+    public void buttonGetQueenOfSpades() {
+        this.btnGetQueenOfSpades = new Button();
+        btnGetQueenOfSpades.setLayoutX(350);
+        btnGetQueenOfSpades.setLayoutY(240);
+        btnGetQueenOfSpades.setText("Check queen of spades");
+    }
+
+    public void printFaceAndSuit() {
+        List<PlayingCard> listOfHearts = hand.getHeartsFromList();
+        if (!listOfHearts.isEmpty()) {
+            listOfHearts
+                    .stream()
+                    .forEach(p ->
+                        text.appendText(p.getSuit() + "" + p.getFace() + " ")
+                    );
+        } else {
+            text.appendText("You have no hearts on hand");
+        }
+        text.appendText("\n");
+    }
+
+    public void getQueenOfSpades() {
+        text.appendText("Queen of spades in hand: " + hand.isQueenOfSpadesInHand());
+    }
+
     public void clearTextArea() {
         text.deleteText(0, text.getLength());
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Hand hand = new Hand();
+        this.hand = new Hand();
         primaryStage.setTitle("Card GUI");
         Group root = new Group();
         Scene scene = new Scene(root, 600, 400);
+
         buttonGetHand();
         buttonRefreshHand();
         buttonClearText();
         createATextObject();
         buttonCalculateSumOnHand();
+        buttonGetHeartsFromHand();
+        buttonGetQueenOfSpades();
 
         // Register this instance (of self) as listener to button actions
         btnGetHand.setOnAction(new EventHandler<ActionEvent>() {
@@ -74,6 +112,7 @@ public class Gui extends Application {
             public void handle(ActionEvent actionEvent) {
                 try {
                     String string = hand.checkHand();
+                    text.appendText("Cards drawn: " + hand.getNumberOfCardsToDraw() + " --> ");
                     if (!(string == "")) {
                         text.appendText(string + "\n");
                     } else {
@@ -102,11 +141,24 @@ public class Gui extends Application {
                 text.appendText("" + hand.sumOfFaceOnHand() + "\n")
         );
 
+        btnGetHeartsFromHand.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                printFaceAndSuit();
+            }
+        });
+
+        btnGetQueenOfSpades.setOnAction(event -> {
+            getQueenOfSpades();
+        });
+
         root.getChildren().add(btnGetHand);
         root.getChildren().add(btnRefreshHand);
         root.getChildren().add(btnClearText);
         root.getChildren().add(text);
         root.getChildren().add(btnCalculateSumOnHand);
+        root.getChildren().add(btnGetHeartsFromHand);
+        root.getChildren().add(btnGetQueenOfSpades);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
