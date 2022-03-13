@@ -74,4 +74,29 @@ public class Hand {
     public void makeANewDeck() {
         cards.createANewDeck();
     }
+
+    /**
+     * Returns a list with cards that have the suit heart
+     * @return List<PlayingCard>, a list with heart card
+     */
+    public List<PlayingCard> getHeartsFromList() {
+        return cards.getHeartsFromHand();
+    }
+
+    /**
+     * Returns the number of cards to draw
+     * @return NUMBER_OF_CARDS_DRAWN
+     */
+    public int getNumberOfCardsToDraw() {
+        return NUMBER_OF_CARDS_DRAWN;
+    }
+
+    /**
+     * Returns a boolean based on whether queen of spades is
+     * in hand or not
+     * @return boolean, true if queen of spades is in hand
+     */
+    public boolean isQueenOfSpadesInHand() {
+        return cards.isQueenOfSpadesInHand();
+    }
 }
