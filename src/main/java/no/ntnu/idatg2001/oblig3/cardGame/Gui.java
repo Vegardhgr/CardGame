@@ -30,7 +30,7 @@ public class Gui extends Application {
      */
     public void buttonGetHand() {
         this.btnGetHand = new Button();
-        btnGetHand.setLayoutX(350);
+        btnGetHand.setLayoutX(100);
         btnGetHand.setLayoutY(200);
         btnGetHand.setText("Get hand");
     }
@@ -40,8 +40,8 @@ public class Gui extends Application {
      */
     public void buttonRefreshHand() {
         this.btnRefreshHand = new Button();
-        btnRefreshHand.setLayoutX(250);
-        btnRefreshHand.setLayoutY(200);
+        btnRefreshHand.setLayoutX(300);
+        btnRefreshHand.setLayoutY(240);
         btnRefreshHand.setText("Refresh hand");
     }
 
@@ -51,7 +51,7 @@ public class Gui extends Application {
     public void buttonClearText() {
         this.btnClearText = new Button();
         btnClearText.setLayoutX(100);
-        btnClearText.setLayoutY(200);
+        btnClearText.setLayoutY(240);
         btnClearText.setText("Clear text window");
     }
 
@@ -60,8 +60,8 @@ public class Gui extends Application {
      */
     public void buttonCheckHand() {
         this.btnCheckHand = new Button();
-        btnCheckHand.setLayoutX(250);
-        btnCheckHand.setLayoutY(240);
+        btnCheckHand.setLayoutX(300);
+        btnCheckHand.setLayoutY(200);
         btnCheckHand.setText("Check hand");
     }
 
