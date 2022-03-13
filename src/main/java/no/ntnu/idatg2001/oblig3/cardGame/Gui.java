@@ -8,21 +8,26 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-
-import java.nio.file.attribute.GroupPrincipal;
 import java.util.List;
 
+/**
+ * This class is the GUI of the card game
+ *
+ * @author Vegard Grøder
+ * @version 1.0.0
+ */
 public class Gui extends Application {
+    // Global fields
     Hand hand;
     Button btnGetHand;
     Button btnRefreshHand;
     Button btnClearText;
+    Button btnCheckHand;
     TextArea text;
-    Button btnCalculateSumOnHand;
-    Button btnGetHeartsFromHand;
-    Button btnGetQueenOfSpades;
 
-
+    /**
+     * Button for get hand
+     */
     public void buttonGetHand() {
         this.btnGetHand = new Button();
         btnGetHand.setLayoutX(350);
@@ -30,6 +35,9 @@ public class Gui extends Application {
         btnGetHand.setText("Get hand");
     }
 
+    /**
+     * Button to get a new deck of cards
+     */
     public void buttonRefreshHand() {
         this.btnRefreshHand = new Button();
         btnRefreshHand.setLayoutX(250);
@@ -37,6 +45,9 @@ public class Gui extends Application {
         btnRefreshHand.setText("Refresh hand");
     }
 
+    /**
+     * Button to clear the text window
+     */
     public void buttonClearText() {
         this.btnClearText = new Button();
         btnClearText.setLayoutX(100);
@@ -44,32 +55,44 @@ public class Gui extends Application {
         btnClearText.setText("Clear text window");
     }
 
+    /**
+     * Button for check hand
+     */
+    public void buttonCheckHand() {
+        this.btnCheckHand = new Button();
+        btnCheckHand.setLayoutX(250);
+        btnCheckHand.setLayoutY(240);
+        btnCheckHand.setText("Check hand");
+    }
+
+    /**
+     * Creates a text area
+     */
     public void createATextObject() {
         this.text = new TextArea();
     }
 
-    public void buttonCalculateSumOnHand() {
-        this.btnCalculateSumOnHand = new Button();
-        btnCalculateSumOnHand.setLayoutX(100);
-        btnCalculateSumOnHand.setLayoutY(240);
-        btnCalculateSumOnHand.setText("Calculate sum");
+    /**
+     * A method used to check for flush
+     */
+    public void checkForFlush() {
+        try {
+            String string = hand.checkHand();
+            if (!(string == "")) {
+                text.appendText(string + "\n");
+            } else {
+                text.appendText("Not flush\n");
+            }
+        }
+        catch (IllegalArgumentException e){
+            text.appendText(e.getMessage() + "\n");
+        }
     }
 
-    public void buttonGetHeartsFromHand() {
-        this.btnGetHeartsFromHand = new Button();
-        btnGetHeartsFromHand.setLayoutX(250);
-        btnGetHeartsFromHand.setLayoutY(240);
-        btnGetHeartsFromHand.setText("Get hearts");
-    }
-
-    public void buttonGetQueenOfSpades() {
-        this.btnGetQueenOfSpades = new Button();
-        btnGetQueenOfSpades.setLayoutX(350);
-        btnGetQueenOfSpades.setLayoutY(240);
-        btnGetQueenOfSpades.setText("Check queen of spades");
-    }
-
-    public void printFaceAndSuit() {
+    /**
+     * A method to print hearts and face
+     */
+    public void printHeartsAndFace() {
         List<PlayingCard> listOfHearts = hand.getHeartsFromList();
         if (!listOfHearts.isEmpty()) {
             listOfHearts
@@ -83,14 +106,25 @@ public class Gui extends Application {
         text.appendText("\n");
     }
 
+    /**
+     * A method to check for queen of spades
+     */
     public void getQueenOfSpades() {
         text.appendText("Queen of spades in hand: " + hand.isQueenOfSpadesInHand());
     }
 
+    /**
+     * A method to clear the text area
+     */
     public void clearTextArea() {
         text.deleteText(0, text.getLength());
     }
 
+    /**
+     * This method starts the process
+     * @param primaryStage, the display window
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.hand = new Hand();
@@ -101,30 +135,20 @@ public class Gui extends Application {
         buttonGetHand();
         buttonRefreshHand();
         buttonClearText();
+        buttonCheckHand();
         createATextObject();
-        buttonCalculateSumOnHand();
-        buttonGetHeartsFromHand();
-        buttonGetQueenOfSpades();
 
-        // Register this instance (of self) as listener to button actions
-        btnGetHand.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                try {
-                    String string = hand.checkHand();
-                    text.appendText("Cards drawn: " + hand.getNumberOfCardsToDraw() + " --> ");
-                    if (!(string == "")) {
-                        text.appendText(string + "\n");
-                    } else {
-                        text.appendText("Not flush\n");
-                    }
-                }
-                catch (IllegalArgumentException e){
-                    text.appendText(e.getMessage() + "\n");
-                }
-            }
-        });
+        /**
+         * Displays the amount of cards that have been drawn when clicking on
+         * the button btnGetHand
+         */
+        btnGetHand.setOnAction(event ->
+                text.appendText("Cards drawn: " + hand.getNumberOfCardsToDraw() + "\n")
+        );
 
+        /**
+         * It will create a new deck of cards
+         */
         btnRefreshHand.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -133,32 +157,29 @@ public class Gui extends Application {
             }
         });
 
+        /**
+         * Checks the hand for flush, it displays hearts and face on hand, and it
+         * says if queen of spades is on hand
+         */
+        btnCheckHand.setOnAction(event -> {
+            checkForFlush();
+            text.appendText("Face and suit on hand: ");
+            printHeartsAndFace();
+            text.appendText("Face sum on hand: " + hand.sumOfFaceOnHand() + "\n");
+            getQueenOfSpades();
+            text.appendText("\n\n");
+        });
+
         btnClearText.setOnAction(event ->
                 clearTextArea()
         );
 
-        btnCalculateSumOnHand.setOnAction(event ->
-                text.appendText("" + hand.sumOfFaceOnHand() + "\n")
-        );
-
-        btnGetHeartsFromHand.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                printFaceAndSuit();
-            }
-        });
-
-        btnGetQueenOfSpades.setOnAction(event -> {
-            getQueenOfSpades();
-        });
-
+        // Displays all the buttons
         root.getChildren().add(btnGetHand);
         root.getChildren().add(btnRefreshHand);
         root.getChildren().add(btnClearText);
+        root.getChildren().add(btnCheckHand);
         root.getChildren().add(text);
-        root.getChildren().add(btnCalculateSumOnHand);
-        root.getChildren().add(btnGetHeartsFromHand);
-        root.getChildren().add(btnGetQueenOfSpades);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
