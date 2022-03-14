@@ -18,14 +18,12 @@ public class DeckOfCards {
     private final char[] suit = {'S', 'H', 'D', 'C'};
     private int cardNumber = 1;
     private List<PlayingCard> cardList;
-    private List<PlayingCard> hand;
 
     /**
      * Calls createANewDeck method, which creates a new deck,
      * and initializes the global field, hand
      */
     public DeckOfCards() {
-        this.hand = new ArrayList<>();
         createANewDeck();
     }
 
@@ -43,8 +41,7 @@ public class DeckOfCards {
         if(numberOfCardsToDraw < 1)
             throw new IllegalArgumentException("Can not draw 0 or less cards");
 
-        new DeckOfCards();
-        this.hand = new ArrayList<>();
+        List<PlayingCard> hand = new ArrayList<>();
         int card = 0;
         while (card < numberOfCardsToDraw) {
             Random rand = new Random();
@@ -70,36 +67,4 @@ public class DeckOfCards {
             cardNumber = 1;
         }
     }
-
-    /**
-     * This method returns a stream of the numbers on the cards
-     * @return IntStream, a strem of the numbers on the cards
-     */
-    public IntStream getCardListFace() {
-        return this.hand
-                .stream()
-                .mapToInt(p -> p.getFace());
-    }
-
-    /**
-     * Returns a list with all the cards that are hearts, in hand
-     * @return List<PlayingCard>
-     */
-    public List<PlayingCard> getHeartsFromHand() {
-        return this.hand
-                .stream()
-                .filter(p -> p.getSuit() == 'H')
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Checks if queen of spades is in hand
-     * @return boolean, true if queen of spades is in hand
-     */
-    public boolean isQueenOfSpadesInHand() {
-        return hand
-                .stream()
-                .anyMatch(p -> p.getSuit() == 'H' && p.getFace() == 12);
-    }
-
 }
