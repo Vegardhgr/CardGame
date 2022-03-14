@@ -24,13 +24,14 @@ public class Hand {
         this.cards = new DeckOfCards();
     }
 
+    /**
+     * Creates the hand
+     * @throws IllegalArgumentException
+     */
     public void makeHand() throws IllegalArgumentException{
          this.hand = new ArrayList<>(cards.dealHand(NUMBER_OF_CARDS_DRAWN));
     }
 
-    public List<PlayingCard> returnHand() throws IllegalArgumentException{
-        return new ArrayList<>(cards.dealHand(NUMBER_OF_CARDS_DRAWN));
-    }
 
     /**
      * This method checks if a hand is flush or not
@@ -109,5 +110,13 @@ public class Hand {
         return hand
                 .stream()
                 .anyMatch(p -> p.getSuit() == 'H' && p.getFace() == 12);
+    }
+
+    /**
+     * Returns the hand
+     * @return List<PlayingCard>, a list of playing cards
+     */
+    public List<PlayingCard> getHand() {
+        return hand;
     }
 }
