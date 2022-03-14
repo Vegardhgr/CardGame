@@ -220,7 +220,7 @@ public class Gui extends Application {
                 hand.getHand().forEach(p -> text.appendText(p.getSuit() + "" + p.getFace() + " "));
                 text.appendText("\n");
             } catch (IllegalArgumentException e) {
-                text.appendText("\n" + e.getMessage() + ".\nPlease refresh hand");
+                text.appendText("\n" + e.getMessage() + ".\nPlease refresh hand\n");
             }
         });
 
