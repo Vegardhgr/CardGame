@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+
 import java.util.List;
 
 /**
@@ -93,10 +94,9 @@ public class Gui extends Application {
      * A method to print hearts and face
      */
     public void printHeartsAndFace() {
-        List<PlayingCard> listOfHearts = hand.getHeartsFromList();
+        List<PlayingCard> listOfHearts = hand.getHeartsFromHand();
         if (!listOfHearts.isEmpty()) {
             listOfHearts
-                    .stream()
                     .forEach(p ->
                         text.appendText(p.getSuit() + "" + p.getFace() + " ")
                     );
@@ -142,9 +142,10 @@ public class Gui extends Application {
          * Displays the amount of cards that have been drawn when clicking on
          * the button btnGetHand
          */
-        btnGetHand.setOnAction(event ->
-                text.appendText("Cards drawn: " + hand.getNumberOfCardsToDraw() + "\n")
-        );
+        btnGetHand.setOnAction(event -> {
+            hand.makeHand();
+            text.appendText("Cards drawn: " + hand.getNumberOfCardsToDraw() + "\n");
+        });
 
         /**
          * It will create a new deck of cards
