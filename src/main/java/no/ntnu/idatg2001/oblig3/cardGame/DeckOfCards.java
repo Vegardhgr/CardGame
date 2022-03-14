@@ -18,12 +18,14 @@ public class DeckOfCards {
     private final char[] suit = {'S', 'H', 'D', 'C'};
     private int cardNumber = 1;
     private List<PlayingCard> cardList;
+    Random rand;
 
     /**
      * Calls createANewDeck method, which creates a new deck,
      * and initializes the global field, hand
      */
     public DeckOfCards() {
+        this.rand = new Random();
         createANewDeck();
     }
 
@@ -44,7 +46,6 @@ public class DeckOfCards {
         List<PlayingCard> hand = new ArrayList<>();
         int card = 0;
         while (card < numberOfCardsToDraw) {
-            Random rand = new Random();
             int upperBound = cardList.size();
             int randomCardFromList = rand.nextInt(upperBound);
             hand.add(cardList.get(randomCardFromList));
