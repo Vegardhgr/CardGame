@@ -1,4 +1,5 @@
 package no.ntnu.idatg2001.oblig3.cardGame;
+
 /**
  * Represents a playing card. A playing card has a number (face) between
  * 1 and 13, where 1 is called an Ace, 11 = Knight, 12 = Queen and 13 = King.
@@ -7,9 +8,10 @@ package no.ntnu.idatg2001.oblig3.cardGame;
  * @author ntnu
  * @version 2020-01-10
  */
-public class PlayingCard implements Comparable<PlayingCard>{
+public class PlayingCard implements Comparable<PlayingCard> {
     private final char suit; // 'S'=spade, 'H'=heart, 'D'=diamonds, 'C'=clubs
     private final int face; // a number between 1 and 13
+
     /**
      * Creates an instance of a PlayingCard with a given suit and face.
      *
@@ -21,6 +23,7 @@ public class PlayingCard implements Comparable<PlayingCard>{
         this.suit = suit;
         this.face = face;
     }
+
     /**
      * Returns the suit and face of the card as a string.
      * A 4 of hearts is returned as the string "H4".
@@ -30,6 +33,7 @@ public class PlayingCard implements Comparable<PlayingCard>{
     public String getAsString() {
         return String.format("%s%s", suit, face);
     }
+
     /**
      * Returns the suit of the card, 'S' for Spades, 'H' for Heart, 'D' for Diamonds and 'C' for Clubs
      *
@@ -38,6 +42,7 @@ public class PlayingCard implements Comparable<PlayingCard>{
     public char getSuit() {
         return suit;
     }
+
     /**
      * Returns the face of the card (value between 1 and 13).
      *
@@ -53,13 +58,14 @@ public class PlayingCard implements Comparable<PlayingCard>{
      */
     @Override
     public int compareTo(PlayingCard o) {
-        if(suit != o.getSuit())
-            return Character.compare(suit,o.getSuit());
+        if (suit != o.getSuit())
+            return Character.compare(suit, o.getSuit());
         return Integer.compare(face, o.getFace());
     }
 
     /**
      * Sorts the deck based on face
+     *
      * @param o, a playing card object
      * @return int
      */
@@ -69,6 +75,7 @@ public class PlayingCard implements Comparable<PlayingCard>{
 
     /**
      * Sorts the deck based on suit
+     *
      * @param o, a playing card object
      * @return int
      */

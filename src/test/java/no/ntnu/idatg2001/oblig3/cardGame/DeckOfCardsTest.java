@@ -61,7 +61,7 @@ class DeckOfCardsTest {
             cardsOnHand.add(cardList.get(cardIndex));
             cardList.remove(cardIndex);
             numberOfCardsDrawn++;
-            assertEquals(52-numberOfCardsDrawn, cardList.size());
+            assertEquals(52 - numberOfCardsDrawn, cardList.size());
             assertEquals(numberOfCardsDrawn, cardsOnHand.size());
         }
         assertEquals(amountOfCardsToDraw, cardsOnHand.size());

@@ -2,7 +2,6 @@ package no.ntnu.idatg2001.oblig3.cardGame;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * This class represents the cards on hand
@@ -26,10 +25,11 @@ public class Hand {
 
     /**
      * Creates the hand
+     *
      * @throws IllegalArgumentException
      */
-    public void makeHand() throws IllegalArgumentException{
-         this.hand = new ArrayList<>(cards.dealHand(NUMBER_OF_CARDS_DRAWN));
+    public void makeHand() throws IllegalArgumentException {
+        this.hand = new ArrayList<>(cards.dealHand(NUMBER_OF_CARDS_DRAWN));
     }
 
 
@@ -55,6 +55,7 @@ public class Hand {
 
     /**
      * Checks if the cards that you have on hand is a flush
+     *
      * @param sortedHand, an array of the cards on hand in sorted
      *                    order
      * @return boolean, true if it is a flush
@@ -75,6 +76,7 @@ public class Hand {
 
     /**
      * Returns the number of cards to draw
+     *
      * @return NUMBER_OF_CARDS_DRAWN
      */
     public int getNumberOfCardsToDraw() {
@@ -83,6 +85,7 @@ public class Hand {
 
     /**
      * This method returns a stream of the numbers on the cards
+     *
      * @return IntStream, a strem of the numbers on the cards
      */
     public int sumOfFaceOnHand() {
@@ -93,6 +96,7 @@ public class Hand {
 
     /**
      * Returns a list with all the cards that are hearts, in hand
+     *
      * @return List<PlayingCard>
      */
     public List<PlayingCard> getHeartsFromHand() {
@@ -104,6 +108,7 @@ public class Hand {
 
     /**
      * Checks if queen of spades is in hand
+     *
      * @return boolean, true if queen of spades is in hand
      */
     public boolean isQueenOfSpadesInHand() {
@@ -114,6 +119,7 @@ public class Hand {
 
     /**
      * Returns the hand
+     *
      * @return List<PlayingCard>, a list of playing cards
      */
     public List<PlayingCard> getHand() {

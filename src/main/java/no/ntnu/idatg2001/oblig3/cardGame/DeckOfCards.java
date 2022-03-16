@@ -31,16 +31,17 @@ public class DeckOfCards {
 
     /**
      * Creates and returns a hand of cards
+     *
      * @param numberOfCardsToDraw, amount of playing cards in a hand
-     * @throws IllegalArgumentException, if the number of cards to draw is greater
-     * than the number of cards left in the deck, or if the number of cards to draw is less
-     * than one
      * @return hand, a list of playing cards
+     * @throws IllegalArgumentException, if the number of cards to draw is greater
+     *                                   than the number of cards left in the deck, or if the number of cards to draw is less
+     *                                   than one
      */
     public Collection<PlayingCard> dealHand(int numberOfCardsToDraw) throws IllegalArgumentException {
-        if(numberOfCardsToDraw > cardList.size())
+        if (numberOfCardsToDraw > cardList.size())
             throw new IllegalArgumentException("Can not draw that number of cards");
-        if(numberOfCardsToDraw < 1)
+        if (numberOfCardsToDraw < 1)
             throw new IllegalArgumentException("Can not draw 0 or less cards");
 
         List<PlayingCard> hand = new ArrayList<>();
