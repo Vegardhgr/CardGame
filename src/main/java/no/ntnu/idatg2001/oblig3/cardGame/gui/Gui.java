@@ -1,5 +1,6 @@
-package no.ntnu.idatg2001.oblig3.cardGame;
+package no.ntnu.idatg2001.oblig3.cardGame.gui;
 
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -12,11 +13,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import no.ntnu.idatg2001.oblig3.cardGame.Hand;
+import no.ntnu.idatg2001.oblig3.cardGame.PlayingCard;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,10 +41,10 @@ public class Gui extends Application {
     ImageView imageView5;
     ImageView[] imageViewArr;
     TranslateTransition transition;
+    ScaleTransition scale;
 
     // An array of all possible card faces
-    private String[] faceList = new String[]{"ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king"};
-
+    private String[] faceList = new String[]{"ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "faceDownCard"};
 
     Label queenFieldLabel;
     TextField textFieldQueenOfSpades;
@@ -64,7 +65,7 @@ public class Gui extends Application {
         this.btnGetHand = new Button();
         this.btnGetHand.setLayoutX(350);
         this.btnGetHand.setLayoutY(220);
-        this.btnGetHand.setText("Get hand");
+        this.btnGetHand.setText("Deal hand");
     }
 
     /**
@@ -75,6 +76,29 @@ public class Gui extends Application {
         this.btnRefreshHand.setLayoutX(500);
         this.btnRefreshHand.setLayoutY(320);
         this.btnRefreshHand.setText("Refresh hand");
+    }
+
+    /**
+     * Face down cards
+     * @param index, the index to an image in imageViewArr
+     */
+    public void faceDownCards(int index) {
+        int i = index;
+        TranslateTransition translateTransition = new TranslateTransition();
+        imageViewArr[i].setImage(new Image("file:src/images/faceDownCard.png"));
+        translateTransition.setNode(imageViewArr[i]);
+        translateTransition.setByX(20);
+        translateTransition.setDuration(Duration.millis(100));
+        TranslateTransition translateTransition2 = new TranslateTransition();
+        translateTransition.setOnFinished(p -> {
+            translateTransition2.setNode(imageViewArr[i]);
+            translateTransition2.setByX(-20);
+            translateTransition2.setDuration(Duration.millis(100));
+            translateTransition2.play();
+
+        });
+        translateTransition.play();
+
     }
 
     /**
@@ -169,17 +193,49 @@ public class Gui extends Application {
         this.imageView5.setFitWidth(75);
     }
 
-    public void setTransition(int iterations) {
-        int i = iterations;
+    /**
+     * Calls set transition for all the images in imageViewArr
+     */
+    public void loadAllTransitions() {
+        for (int i = 0; i < 5; i++)
+            setTransition(i);
+    }
+
+    /**
+     * Sets the transition for all the cards in imageViewArr
+     * @param index, index for an image in imageViewArr
+     */
+    public void setTransition(int index) {
+        int i = index;
         this.transition = new TranslateTransition();
+        this.scale = new ScaleTransition();
         transition.setDuration(Duration.millis(100));
         transition.setNode(imageViewArr[i]);
-        transition.setByY(5);
+        transition.setByY(0);
         transition.setAutoReverse(true);
         transition.setCycleCount(6);
+        scale.setNode(imageViewArr[i]);
+        scale.setByX(1);
+        scale.setDuration(Duration.millis(1000));
+        scale.setByX(-1);
+        ScaleTransition scale2 = new ScaleTransition();
+        scale.setOnFinished(p -> {
+            loadImages();
+            scale2.setNode(imageViewArr[i]);
+            scale2.setByX(1);
+            scale2.setDuration(Duration.millis(1000));
+            scale2.play();
+        });
+        scale2.setOnFinished(p -> {
+            btnGetHand.setDisable(false);
+            btnRefreshHand.setDisable(false);
+            btnCheckHand.setDisable(false);
+        });
+        scale.play();
         transition.play();
-
+        scale.play();
     }
+
     /**
      * Creates a label and a text field for queen of spades
      */
@@ -279,7 +335,6 @@ public class Gui extends Application {
      * This method starts the process
      *
      * @param primaryStage, the display window
-     * @throws Exception
      */
     @Override
     public void start(Stage primaryStage) {
@@ -304,35 +359,28 @@ public class Gui extends Application {
         textHeartsAndFace();
         textFlush();
         sumOnHand();
+        btnCheckHand.setDisable(true);
+        btnRefreshHand.setDisable(true);
+
+        for (int i = 0; i < 5; i++)
+            faceDownCards(i);
 
         /**
          * Displays the amount of cards that have been drawn, what cards you have drawn
          * and it will display an image of all the cards
          */
         btnGetHand.setOnAction(event -> {
+            btnGetHand.setDisable(true);
+            btnCheckHand.setDisable(true);
+            btnRefreshHand.setDisable(true);
             try {
-                btnGetHand.setDisable(true);
                 hand.makeHand();
                 text.appendText("Cards drawn: " + hand.getNumberOfCardsToDraw() + "\n");
                 text.appendText("Your hand: ");
                 hand.getHand().forEach(p -> text.appendText(p.getSuit() + "" + p.getFace() + " "));
                 text.appendText("\n");
 
-                int i = 0;
-                for (PlayingCard card : hand.getHand()) {
-                    if (card.getSuit() == 'H') {
-                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_hearts.png"));
-                    } else if (card.getSuit() == 'D') {
-                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_diamonds.png"));
-                    } else if (card.getSuit() == 'C') {
-                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_clubs.png"));
-                    } else {
-                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_spades.png"));
-                    }
-                    setTransition(i);
-                    i++;
-                }
-                btnGetHand.setDisable(false);
+                loadAllTransitions();
                 text.appendText("\n");
             } catch (IllegalArgumentException e) {
                 text.appendText("\n" + e.getMessage() + ".\nPlease refresh hand\n");
@@ -340,14 +388,19 @@ public class Gui extends Application {
         });
 
         /**
-         * Creates a new deck of cards, and gives
+         * Creates a new deck of cards and gives
          * feedback to user
          */
         btnRefreshHand.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                btnRefreshHand.setDisable(true);
+                btnCheckHand.setDisable(true);
                 hand.makeANewDeck();
+                for (int i = 0; i < 5; i++)
+                    faceDownCards(i);
                 text.appendText("Hand is now refreshed\n");
+                btnGetHand.setDisable(false);
             }
         });
 
@@ -356,6 +409,7 @@ public class Gui extends Application {
          * says if queen of spades is on hand
          */
         btnCheckHand.setOnAction(event -> {
+            btnCheckHand.setDisable(true);
             checkForFlush();
             printHeartsAndFace();
             textFieldSum.setText("" + hand.sumOfFaceOnHand());
@@ -391,6 +445,25 @@ public class Gui extends Application {
                 textFieldSum);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    /**
+     * Puts new images in imageViewArr
+     */
+    private void loadImages() {
+        int i = 0;
+        for (PlayingCard card : hand.getHand()) {
+            if (card.getSuit() == 'H') {
+                imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_hearts.png"));
+            } else if (card.getSuit() == 'D') {
+                imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_diamonds.png"));
+            } else if (card.getSuit() == 'C') {
+                imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_clubs.png"));
+            } else {
+                imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_spades.png"));
+            }
+            i++;
+        }
     }
 
     @Override
