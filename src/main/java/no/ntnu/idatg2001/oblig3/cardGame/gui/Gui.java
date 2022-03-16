@@ -1,5 +1,6 @@
 package no.ntnu.idatg2001.oblig3.cardGame;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,7 +12,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,6 +39,7 @@ public class Gui extends Application {
     ImageView imageView4;
     ImageView imageView5;
     ImageView[] imageViewArr;
+    TranslateTransition transition;
 
     // An array of all possible card faces
     private String[] faceList = new String[]{"ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king"};
@@ -165,6 +169,17 @@ public class Gui extends Application {
         this.imageView5.setFitWidth(75);
     }
 
+    public void setTransition(int iterations) {
+        int i = iterations;
+        this.transition = new TranslateTransition();
+        transition.setDuration(Duration.millis(100));
+        transition.setNode(imageViewArr[i]);
+        transition.setByY(5);
+        transition.setAutoReverse(true);
+        transition.setCycleCount(6);
+        transition.play();
+
+    }
     /**
      * Creates a label and a text field for queen of spades
      */
@@ -267,7 +282,7 @@ public class Gui extends Application {
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         this.hand = new Hand();
         primaryStage.setTitle("Card GUI");
         Group root = new Group();
@@ -296,11 +311,13 @@ public class Gui extends Application {
          */
         btnGetHand.setOnAction(event -> {
             try {
+                btnGetHand.setDisable(true);
                 hand.makeHand();
                 text.appendText("Cards drawn: " + hand.getNumberOfCardsToDraw() + "\n");
                 text.appendText("Your hand: ");
                 hand.getHand().forEach(p -> text.appendText(p.getSuit() + "" + p.getFace() + " "));
                 text.appendText("\n");
+
                 int i = 0;
                 for (PlayingCard card : hand.getHand()) {
                     if (card.getSuit() == 'H') {
@@ -312,8 +329,10 @@ public class Gui extends Application {
                     } else {
                         imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_spades.png"));
                     }
+                    setTransition(i);
                     i++;
                 }
+                btnGetHand.setDisable(false);
                 text.appendText("\n");
             } catch (IllegalArgumentException e) {
                 text.appendText("\n" + e.getMessage() + ".\nPlease refresh hand\n");
