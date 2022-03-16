@@ -9,8 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,6 +30,16 @@ public class Gui extends Application {
     Button btnClearText;
     Button btnCheckHand;
     TextArea text;
+    ImageView imageView1;
+    ImageView imageView2;
+    ImageView imageView3;
+    ImageView imageView4;
+    ImageView imageView5;
+    ImageView[] imageViewArr;
+
+    // An array of all possible card faces
+    private String[] faceList = new String[]{"ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king"};
+
 
     Label queenFieldLabel;
     TextField textFieldQueenOfSpades;
@@ -46,7 +59,7 @@ public class Gui extends Application {
     public void buttonGetHand() {
         this.btnGetHand = new Button();
         this.btnGetHand.setLayoutX(350);
-        this.btnGetHand.setLayoutY(50);
+        this.btnGetHand.setLayoutY(220);
         this.btnGetHand.setText("Get hand");
     }
 
@@ -56,7 +69,7 @@ public class Gui extends Application {
     public void buttonRefreshHand() {
         this.btnRefreshHand = new Button();
         this.btnRefreshHand.setLayoutX(500);
-        this.btnRefreshHand.setLayoutY(120);
+        this.btnRefreshHand.setLayoutY(320);
         this.btnRefreshHand.setText("Refresh hand");
     }
 
@@ -66,8 +79,15 @@ public class Gui extends Application {
     public void buttonClearText() {
         this.btnClearText = new Button();
         this.btnClearText.setLayoutX(350);
-        this.btnClearText.setLayoutY(120);
+        this.btnClearText.setLayoutY(320);
         this.btnClearText.setText("Clear text window");
+    }
+
+    /**
+     * An array of all the images
+     */
+    public void imageViewArr() {
+        this.imageViewArr = new ImageView[]{imageView1, imageView2, imageView3, imageView4, imageView5};
     }
 
     /**
@@ -76,7 +96,7 @@ public class Gui extends Application {
     public void buttonCheckHand() {
         this.btnCheckHand = new Button();
         this.btnCheckHand.setLayoutX(500);
-        this.btnCheckHand.setLayoutY(50);
+        this.btnCheckHand.setLayoutY(220);
         this.btnCheckHand.setText("Check hand");
     }
 
@@ -86,8 +106,63 @@ public class Gui extends Application {
     public void createATextObject() {
         this.text = new TextArea();
         this.text.setLayoutX(20);
-        this.text.setMaxHeight(200);
+        this.text.setMaxHeight(100);
         this.text.setMaxWidth(310);
+    }
+
+    /**
+     * Placeholder for image 1
+     */
+    public void imageView1() {
+        this.imageView1 = new ImageView();
+        this.imageView1.setLayoutX(10);
+        this.imageView1.setLayoutY(110);
+        this.imageView1.setFitHeight(75);
+        this.imageView1.setFitWidth(75);
+    }
+
+    /**
+     * Placeholder for image 2
+     */
+    public void imageView2() {
+        this.imageView2 = new ImageView();
+        this.imageView2.setLayoutX(85);
+        this.imageView2.setLayoutY(110);
+        this.imageView2.setFitHeight(75);
+        this.imageView2.setFitWidth(75);
+    }
+
+    /**
+     * Placeholder for image 3
+     */
+    public void imageView3() {
+        this.imageView3 = new ImageView();
+        this.imageView3.setLayoutX(160);
+        this.imageView3.setLayoutY(110);
+        this.imageView3.setFitHeight(75);
+        this.imageView3.setFitWidth(75);
+    }
+
+    /**
+     * Placeholder for image 4
+     */
+    public void imageView4() {
+        this.imageView4 = new ImageView();
+        this.imageView4.setLayoutX(235);
+        this.imageView4.setLayoutY(110);
+        this.imageView4.setFitHeight(75);
+        this.imageView4.setFitWidth(75);
+    }
+
+    /**
+     * Placeholder for image 5
+     */
+    public void imageView5() {
+        this.imageView5 = new ImageView();
+        this.imageView5.setLayoutX(310);
+        this.imageView5.setLayoutY(110);
+        this.imageView5.setFitHeight(75);
+        this.imageView5.setFitWidth(75);
     }
 
     /**
@@ -115,7 +190,7 @@ public class Gui extends Application {
     }
 
     /**
-     * Creates a label and a text field for flush
+     * Creates a label and a text field for flush checker
      */
     public void textFlush() {
         this.flushLabel = new Label("Flush");
@@ -150,8 +225,7 @@ public class Gui extends Application {
             } else {
                 textFieldFlush.setText("Not flush");
             }
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             textFieldFlush.setText(e.getMessage());
         }
     }
@@ -165,7 +239,7 @@ public class Gui extends Application {
         if (!listOfHearts.isEmpty()) {
             listOfHearts
                     .forEach(p ->
-                        textFieldHeartsAndFace.appendText(p.getSuit() + "" + p.getFace() + " ")
+                            textFieldHeartsAndFace.appendText(p.getSuit() + "" + p.getFace() + " ")
                     );
         } else {
             textFieldHeartsAndFace.setText("No hearts");
@@ -188,6 +262,7 @@ public class Gui extends Application {
 
     /**
      * This method starts the process
+     *
      * @param primaryStage, the display window
      * @throws Exception
      */
@@ -198,10 +273,17 @@ public class Gui extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, 600, 400);
 
+        // Method calls to create the layout
         buttonGetHand();
         buttonRefreshHand();
         buttonClearText();
         buttonCheckHand();
+        imageView1();
+        imageView2();
+        imageView3();
+        imageView4();
+        imageView5();
+        imageViewArr();
         createATextObject();
         textQueenOfSpades();
         textHeartsAndFace();
@@ -209,8 +291,8 @@ public class Gui extends Application {
         sumOnHand();
 
         /**
-         * Displays the amount of cards that have been drawn when clicking on
-         * the button btnGetHand
+         * Displays the amount of cards that have been drawn, what cards you have drawn
+         * and it will display an image of all the cards
          */
         btnGetHand.setOnAction(event -> {
             try {
@@ -219,13 +301,28 @@ public class Gui extends Application {
                 text.appendText("Your hand: ");
                 hand.getHand().forEach(p -> text.appendText(p.getSuit() + "" + p.getFace() + " "));
                 text.appendText("\n");
+                int i = 0;
+                for (PlayingCard card : hand.getHand()) {
+                    if (card.getSuit() == 'H') {
+                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_hearts.png"));
+                    } else if (card.getSuit() == 'D') {
+                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_diamonds.png"));
+                    } else if (card.getSuit() == 'C') {
+                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_clubs.png"));
+                    } else {
+                        imageViewArr[i].setImage(new Image("file:src/images/" + faceList[card.getFace() - 1] + "_of_spades.png"));
+                    }
+                    i++;
+                }
+                text.appendText("\n");
             } catch (IllegalArgumentException e) {
                 text.appendText("\n" + e.getMessage() + ".\nPlease refresh hand\n");
             }
         });
 
         /**
-         * It will create a new deck of cards
+         * Creates a new deck of cards, and gives
+         * feedback to user
          */
         btnRefreshHand.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -254,19 +351,25 @@ public class Gui extends Application {
         );
 
         // Displays all the buttons
-        root.getChildren().add(btnGetHand);
-        root.getChildren().add(btnRefreshHand);
-        root.getChildren().add(btnClearText);
-        root.getChildren().add(btnCheckHand);
-        root.getChildren().add(text);
-        root.getChildren().add(textFieldQueenOfSpades);
-        root.getChildren().add(queenFieldLabel);
-        root.getChildren().add(heartsAndFaceLabel);
-        root.getChildren().add(textFieldHeartsAndFace);
-        root.getChildren().add(flushLabel);
-        root.getChildren().add(textFieldFlush);
-        root.getChildren().add(sumOnHandLabel);
-        root.getChildren().add(textFieldSum);
+        root.getChildren().addAll(
+                btnGetHand,
+                btnRefreshHand,
+                btnClearText,
+                btnCheckHand,
+                imageView1,
+                imageView2,
+                imageView3,
+                imageView4,
+                imageView5,
+                text,
+                textFieldQueenOfSpades,
+                queenFieldLabel,
+                heartsAndFaceLabel,
+                textFieldHeartsAndFace,
+                flushLabel,
+                textFieldFlush,
+                sumOnHandLabel,
+                textFieldSum);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
