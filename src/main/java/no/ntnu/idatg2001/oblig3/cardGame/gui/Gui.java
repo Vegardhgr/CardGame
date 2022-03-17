@@ -383,6 +383,7 @@ public class Gui extends Application {
                 loadAllTransitions();
                 text.appendText("\n");
             } catch (IllegalArgumentException e) {
+                btnRefreshHand.setDisable(false);
                 text.appendText("\n" + e.getMessage() + ".\nPlease refresh hand\n");
             }
         });
