@@ -114,7 +114,7 @@ public class Hand {
     public boolean isQueenOfSpadesInHand() {
         return hand
                 .stream()
-                .anyMatch(p -> p.getSuit() == 'H' && p.getFace() == 12);
+                .anyMatch(p -> p.getSuit() == 'S' && p.getFace() == 12);
     }
 
     /**
