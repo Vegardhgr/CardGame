@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,5 +103,49 @@ class HandTest {
         if (!handIsNotFlush) {
             assertFalse(!handIsNotFlush);
         }
+    }
+
+    private List<PlayingCard> getListWithQueenOfSpades() {
+        List<PlayingCard> cardList = new ArrayList<>();
+        cardList.add(new PlayingCard('S', 12));
+        cardList.add(new PlayingCard('H', 12));
+        cardList.add(new PlayingCard('D', 10));
+        return cardList;
+    }
+
+    private List<PlayingCard> getListWithoutQueenOfSpades() {
+        List<PlayingCard> cardList = new ArrayList<>();
+        cardList.add(new PlayingCard('C', 12));
+        cardList.add(new PlayingCard('H', 12));
+        cardList.add(new PlayingCard('D', 10));
+        return cardList;
+    }
+
+    @Test
+    void checkForQueenOfSpadesOnHand() {
+        assertTrue(getListWithQueenOfSpades()
+                .stream()
+                .anyMatch(p -> p.getSuit() == 'S' && p.getFace() == 12));
+        assertFalse(getListWithoutQueenOfSpades()
+                .stream()
+                .anyMatch(p -> p.getSuit() == 'S' && p.getFace() == 12));
+    }
+
+    private List<PlayingCard> getCards() {
+        List<PlayingCard> cardList = new ArrayList<>();
+        cardList.add(new PlayingCard('H',10));
+        cardList.add(new PlayingCard('S', 13));
+        cardList.add(new PlayingCard('H',2));
+        cardList.add(new PlayingCard('D', 6));
+        cardList.add(new PlayingCard('H',2));
+        return cardList;
+    }
+
+    @Test
+    void checkHeartOnHand() {
+        assertEquals(3, this.getCards()
+                .stream()
+                .filter(p -> p.getSuit() == 'H')
+                .collect(Collectors.toList()).size());
     }
 }
