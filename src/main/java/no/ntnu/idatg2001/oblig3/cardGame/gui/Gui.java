@@ -21,7 +21,7 @@ import no.ntnu.idatg2001.oblig3.cardGame.PlayingCard;
 import java.util.List;
 
 /**
- * This class is the GUI of the card game
+ * This class is the GUI of this application (card game)
  *
  * @author Vegard Grøder
  * @version 1.0.0
