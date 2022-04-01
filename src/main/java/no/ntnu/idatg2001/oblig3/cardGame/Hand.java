@@ -86,7 +86,7 @@ public class Hand {
     /**
      * This method returns a stream of the numbers on the cards
      *
-     * @return IntStream, a strem of the numbers on the cards
+     * @return IntStream, a stream of the numbers on the cards
      */
     public int sumOfFaceOnHand() {
         return this.hand
